@@ -66,7 +66,7 @@ This allows the following functions to be used in _.\MyScript.js_.
 
 ## Usage
 
-Now _.\MyScript.js_ (JScript ) can use the useful functions to handle file system.
+Now _.\MyScript.js_ (JScript) can use the useful functions to handle file system.
 for example, If run the command below
 
 ```console
@@ -137,7 +137,7 @@ console.log('This process is running as user-authority.');
 Many other functions are added.
 See the [documentation](https://docs.tuckn.net/WshProcess) for more details.
 
-And you can also use all functions of [tuckn/WshPolyfill](https://github.com/tuckn/WshPolyfill), [tuckn/WshUtil](https://github.com/tuckn/WshUtil), [tuckn/WshPath](https://github.com/tuckn/WshPath), [tuckn/WshFileSystem](https://github.com/tuckn/WshFileSystem), [tuckn/WshOS](https://github.com/tuckn/WshOS) and [tuckn/WshFileSystem](https://github.com/tuckn/WshFileSystem).
+And you can also use all functions of [tuckn/WshPolyfill](https://github.com/tuckn/WshPolyfill), [tuckn/WshUtil](https://github.com/tuckn/WshUtil), [tuckn/WshPath](https://github.com/tuckn/WshPath), [tuckn/WshOS](https://github.com/tuckn/WshOS) and [tuckn/WshFileSystem](https://github.com/tuckn/WshFileSystem).
 
 ## Documentation
 
