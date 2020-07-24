@@ -1,7 +1,7 @@
 {
   "name": "@tuckn/WshProcess",
   "description": "The process object is a global that provides information about, and control over, the current WSH process. (similar to Node.js Process).",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Tuckn <tuckn333+github@gmail.com>",
   "private": false,
   "license": "MIT",
@@ -51,7 +51,9 @@
     "test:name:release": ".\\scripts\\Test Process -t release$",
     "test:name:versions": ".\\scripts\\Test Process -t ^^versions",
     "test:name:wait": ".\\scripts\\Test Process -t wait$",
+    "test:name:restartAsAdmin": ".\\scripts\\Test Process -t \"^restartAsAdmin\"",
     "test:name:Admin": ".\\scripts\\Test Process -t Admin$",
+    "test:name:restartAsUser": ".\\scripts\\Test Process -t \"^restartAsUser\"",
     "test:Process": ".\\scripts\\Test Process",
     "build": "wsh-packager bundle ./Package.wsf",
     "test:dist:module": ".\\scripts\\Test dist:module",

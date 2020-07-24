@@ -21,8 +21,11 @@ if (!process) {
   var path = Wsh.Path;
   var os = Wsh.OS;
 
+  var objAdd = Object.assign;
+  var obtain = util.obtainPropVal;
   var isPureNumber = util.isPureNumber;
   var includes = util.includes;
+  var TIMEOUT = os.exefiles.timeout;
 
   /** @constant {string} */
   var MODULE_TITLE = 'WshModeJs/Process.js';
@@ -181,7 +184,7 @@ if (!process) {
   process.execArgv = (function () {
     if (_execArgv !== undefined) return _execArgv;
 
-    var functionName = 'process.execArgv';
+    var FN = 'process.execArgv';
 
     var wmiInstance = os.WMI.getThisProcess();
     var command = wmiInstance.CommandLine;
@@ -194,7 +197,7 @@ if (!process) {
 
     if (idxEnd === -1) {
       throw new Error('Error: [findIndex -1]:\n'
-        + '  at ' + functionName + ' (' + MODULE_TITLE + ')\n'
+        + '  at ' + FN + ' (' + MODULE_TITLE + ')\n'
         + '  command: "' + baseName + '"\n  baseName: "' + baseName + '"');
     }
 
@@ -233,8 +236,8 @@ if (!process) {
    * @returns {void}
    */
   process.exit = function (exitCode) {
-    // var functionName = 'process.exit';
-    // if (!isPureNumber(exitCode)) throwErrNonNum(functionName, exitCode);
+    // var FN = 'process.exit';
+    // if (!isPureNumber(exitCode)) throwErrNonNum(FN, exitCode);
 
     if (exitCode === 1) {
       try {
@@ -412,18 +415,21 @@ if (!process) {
    * @function wait
    * @memberof process
    * @param {number} waitSec - The waiting sec.
-   * @param {object} [options] - {(number|string)} [winStyle=activeDef] See {@link https://docs.tuckn.net/WshUtil/Wsh.Constants.windowStyles.html|Wsh.Constants.windowStyles}.
-   * @returns {boolean} - If canceled the wait, returns false, else true.
+   * @param {object} [options] - Optional Parameters.
+   * @param {(number|string)} [options.winStyle=activeDef] - See {@link https://docs.tuckn.net/WshUtil/Wsh.Constants.windowStyles.html|Wsh.Constants.windowStyles}.
+   * @param {boolean} [options.isDryRun=false] - No execute, returns the string of command.
+   * @returns {boolean|string} - If canceled the wait, returns false, else true. If isDryRun is true, returns the command log string. Not execute.
    */
   process.wait = function (waitSec, options) {
-    var functionName = 'process.wait';
-    if (!isPureNumber(waitSec)) throwErrNonNum(functionName, waitSec);
+    var FN = 'process.wait';
+    if (!isPureNumber(waitSec)) throwErrNonNum(FN, waitSec);
 
-    var mainCmd = os.exefiles.timeout;
-    var args = ['/T', parseInt(waitSec, 10)];
+    var retVal = os.runSync(TIMEOUT, ['/T', parseInt(waitSec, 10)], options);
 
-    var iRetVal = os.runSync(mainCmd, args, options);
-    return iRetVal === CD.runs.ok;
+    var isDryRun = obtain(options, 'isDryRun', false);
+    if (isDryRun) return 'dry-run [' + FN + ']: ' + retVal;
+
+    return retVal === CD.runs.ok;
   }; // }}}
 
   // process.isAdmin {{{
@@ -449,25 +455,32 @@ if (!process) {
    * console.log('This process is running as admin-authority.');
    * @function restartAsAdmin
    * @memberof process
-   * @returns {void}
+   * @param {object} [options] - Optional Parameters.
+   * @param {boolean} [options.isDryRun=false] - No execute, returns the string of command.
+   * @returns {void|string} - If isDryRun is true, returns the command log string. Not execute.
    */
-  process.restartAsAdmin = function () {
+  process.restartAsAdmin = function (options) {
     if (process.isAdmin()) return;
 
-    var functionName = 'process.restartAsAdmin';
+    var FN = 'process.restartAsAdmin';
     var PREVENT_WORD = '/PREVENTS_INFINITE_LOOP';
 
     if (includes(process.argv, PREVENT_WORD)) {
       throw new Error('Error: [PREVENTS_INFINITE_LOOP]: averted an infinite loop\n'
-        + '  at ' + functionName + ' (' + MODULE_TITLE + ')\n'
+        + '  at ' + FN + ' (' + MODULE_TITLE + ')\n'
         + '  argv: [' + process.argv.join(', ') + ']');
     }
 
-    var mainCmd = process.execPath;
     var args = process.execArgv.concat(process.argv.slice(1));
     args.push(PREVENT_WORD); // Averted an infinite loop
 
-    os.runAsAdmin(mainCmd, args, { winStyle: 'hidden' });
+    var retVal = os.runAsAdmin(
+      process.execPath, args, objAdd({ winStyle: 'hidden' }, options)
+    );
+
+    var isDryRun = obtain(options, 'isDryRun', false);
+    if (isDryRun) return 'dry-run [' + FN + ']: ' + retVal;
+
     process.exit(0);
   }; // }}}
 
@@ -481,26 +494,33 @@ if (!process) {
    * console.log('This process is running as user-authority.');
    * @function restartAsUser
    * @memberof process
-   * @returns {void}
+   * @param {object} [options] - Optional Parameters.
+   * @param {boolean} [options.isDryRun=false] - No execute, returns the string of command.
+   * @returns {void|string} - If isDryRun is true, returns the command log string. Not execute.
    */
-  process.restartAsUser = function () {
+  process.restartAsUser = function (options) {
     if (!process.isAdmin()) return;
 
-    var functionName = 'process.restartAsUser';
+    var FN = 'process.restartAsUser';
     var PREVENT_WORD = '/PREVENTS_INFINITE_LOOP';
 
     if (includes(process.argv, PREVENT_WORD)) {
       throw new Error('Error: [PREVENTS_INFINITE_LOOP]: averted an infinite loop\n'
-        + '  at ' + functionName + ' (' + MODULE_TITLE + ')\n'
+        + '  at ' + FN + ' (' + MODULE_TITLE + ')\n'
         + '  argv: [' + process.argv.join(', ') + ']');
     }
 
-    var mainCmd = process.execPath;
     var args = process.execArgv.concat(process.argv.slice(1));
     args.push(PREVENT_WORD); // Averted an infinite loop
 
-    /** タスクスケジューラから実行することで降格できる */
-    os.Task.runTemporary(mainCmd, args);
+    /*
+     * @note When executed on Task Scheduler, Runs as User privilege.
+     */
+    var retVal = os.Task.runTemporary(process.execPath, args, options);
+
+    var isDryRun = obtain(options, 'isDryRun', false);
+    if (isDryRun) return 'dry-run [' + FN + ']: ' + retVal;
+
     process.exit(0);
   }; // }}}
 })();

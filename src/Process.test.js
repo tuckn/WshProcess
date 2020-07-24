@@ -25,6 +25,8 @@ var isPlainObject = util.isPlainObject;
 var isSameMeaning = util.isSameMeaning;
 var includes = util.includes;
 var endsWith = util.endsWith;
+var TIMEOUT = os.exefiles.timeout;
+var CSCRIPT = os.exefiles.cscript;
 
 var _cb = function (fn/* , args */) {
   var args = Array.from(arguments).slice(1);
@@ -97,20 +99,19 @@ describe('Process', function () {
       process.exit();
     }
 
-    var mainCmd = os.exefiles.cscript;
     var args;
     var iRetVal;
 
     args = ['//nologo', __filename, '-t', testName, TEST_EXIT_MODE0];
-    iRetVal = os.runSync(mainCmd, args, { winStyle: 'hidden' });
+    iRetVal = os.runSync(CSCRIPT, args, { winStyle: 'hidden' });
     expect(iRetVal).toBe(0);
 
     args = ['//nologo', __filename, '-t', testName, TEST_EXIT_MODE1];
-    iRetVal = os.runSync(mainCmd, args, { winStyle: 'hidden' });
+    iRetVal = os.runSync(CSCRIPT, args, { winStyle: 'hidden' });
     expect(iRetVal).toBe(1);
 
     args = ['//nologo', __filename, '-t', testName, TEST_EXIT_MODE];
-    iRetVal = os.runSync(mainCmd, args, { winStyle: 'hidden' });
+    iRetVal = os.runSync(CSCRIPT, args, { winStyle: 'hidden' });
     expect(iRetVal).toBe(0);
   });
 
@@ -162,6 +163,11 @@ describe('Process', function () {
 
   test('wait', function () {
     var waitSec = 3;
+
+    // dry-run
+    var retVal = process.wait(waitSec, { isDryRun: true });
+    expect(retVal).toContain(TIMEOUT + ' /T 3');
+
     var startTime = new Date();
     var iRetVal = process.wait(waitSec);
     var endTime = new Date();
@@ -176,6 +182,15 @@ describe('Process', function () {
     errVals.forEach(function (val) {
       expect(_cb(process.wait, val)).toThrowError();
     });
+  });
+
+  test('restartAsAdmin', function () {
+    // dry-run
+    var retVal = process.restartAsAdmin({ isDryRun: true });
+    var args = process.execArgv.concat(process.argv.slice(1));
+    expect(retVal.replace(/["^]/g, '')).toContain('[os.runAsAdmin]: '
+      + process.execPath + ' ' + args.join(' ').replace(/["^]/g, '')
+    );
   });
 
   testName = 'isAdmin, restartAsAdmin';
@@ -217,10 +232,9 @@ describe('Process', function () {
     // Create the symlink
     expect(fs.existsSync(symlinkPath)).toBe(false);
 
-    var mainCmd = os.exefiles.cscript;
     var args = ['//nologo', __filename, '-t', testName, TEST_ADMIN_MODE, copiedPath, symlinkPath];
 
-    os.runSync(mainCmd, args);
+    os.runSync(CSCRIPT, args);
 
     // Wait for the symlink created
     var created = false;
@@ -239,7 +253,10 @@ describe('Process', function () {
     expect(fs.rmdirSync(tmpDir)).toBe(undefined);
   });
 
-  test('restartAsUser', function () {
+  test('restartAsUser_runAsAdmin', function () {
+    // dry-run
+    // var retVal = process.restartAsUser({ isDryRun: true });
+
     expect('@TODO').toBe('tested');
   });
 });

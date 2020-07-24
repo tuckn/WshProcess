@@ -37,7 +37,7 @@ or
 > git submodule add https://github.com/tuckn/WshProcess.git ./WshModules/WshProcess
 ```
 
-(3) Include _.\WshProcess\dist\bundle.js_ into your .wsf file.
+(3) Include _.\\WshProcess\\dist\\bundle.js_ into your .wsf file.
 For Example, if your file structure is
 
 ```console
@@ -62,11 +62,11 @@ The content of above _Run.wsf_ is
 ```
 
 I recommend this .wsf file encoding to be UTF-8 [BOM, CRLF].
-This allows the following functions to be used in _.\MyScript.js_.
+This allows the following functions to be used in _.\\MyScript.js_.
 
 ## Usage
 
-Now _.\MyScript.js_ (JScript) can use the useful functions to handle file system.
+Now _.\\MyScript.js_ (JScript) can use the useful functions to handle file system.
 for example, If run the command below
 
 ```console
@@ -137,7 +137,15 @@ console.log('This process is running as user-authority.');
 Many other functions are added.
 See the [documentation](https://docs.tuckn.net/WshProcess) for more details.
 
-And you can also use all functions of [tuckn/WshPolyfill](https://github.com/tuckn/WshPolyfill), [tuckn/WshUtil](https://github.com/tuckn/WshUtil), [tuckn/WshPath](https://github.com/tuckn/WshPath), [tuckn/WshOS](https://github.com/tuckn/WshOS) and [tuckn/WshFileSystem](https://github.com/tuckn/WshFileSystem).
+### Dependency Modules
+
+You can also use the following useful functions in _.\\MyScript.js_ (JScript).
+
+- [tuckn/WshPolyfill](https://github.com/tuckn/WshPolyfill)
+- [tuckn/WshUtil](https://github.com/tuckn/WshUtil)
+- [tuckn/WshPath](https://github.com/tuckn/WshPath)
+- [tuckn/WshOS](https://github.com/tuckn/WshOS)
+- [tuckn/WshFileSystem](https://github.com/tuckn/WshFileSystem)
 
 ## Documentation
 
