@@ -83,6 +83,9 @@ describe('Process', function () {
 
   test('execArgv', function () {
     expect(isArray(process.execArgv)).toBe(true);
+    expect(process.execArgv).toContain('//nologo');
+    // @TODO
+    // expect(process.execArgv).toContain('//job:test:Process');
   });
 
   testName = 'exit';

@@ -25,6 +25,7 @@ if (!process) {
   var obtain = util.obtainPropVal;
   var isPureNumber = util.isPureNumber;
   var includes = util.includes;
+  var startsWith = Wsh.Util.startsWith
   var TIMEOUT = os.exefiles.timeout;
 
   /** @constant {string} */
@@ -50,7 +51,7 @@ if (!process) {
   var _wsArgs = undefined;
 
   /**
-   * Returns an array containing the command line arguments
+   * Returns an array of specified arguments for the WSH script. This is WScript.Arguments converted to JScript array.
    *
    * @example
    * // Ex. Run the command below
@@ -184,24 +185,13 @@ if (!process) {
   process.execArgv = (function () {
     if (_execArgv !== undefined) return _execArgv;
 
-    var FN = 'process.execArgv';
-
     var wmiInstance = os.WMI.getThisProcess();
     var command = wmiInstance.CommandLine;
     var args = command.split(/\s+/);
-    var idxBegin = 1;
-    var baseName = path.basename(__filename);
-    var idxEnd = args.findIndex(function (arg) {
-      if (includes(arg, baseName, 'i')) return true;
+
+    _execArgv = args.filter(function (arg) {
+      if (startsWith(arg, '//')) return true;
     });
-
-    if (idxEnd === -1) {
-      throw new Error('Error: [findIndex -1]:\n'
-        + '  at ' + FN + ' (' + MODULE_TITLE + ')\n'
-        + '  command: "' + baseName + '"\n  baseName: "' + baseName + '"');
-    }
-
-    _execArgv = args.slice(idxBegin, idxEnd);
 
     return _execArgv;
   })(); // }}}
