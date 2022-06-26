@@ -2,7 +2,7 @@
   "name": "@tuckn/WshProcess",
   "description": "The process object is a global that provides information about, and control over, the current WSH process. (similar to Node.js Process).",
   "version": "1.1.1",
-  "author": "Tuckn <tuckn333+github@gmail.com>",
+  "author": "Tuckn <tuckn333@gmail.com>",
   "private": false,
   "license": "MIT",
   "homepage": "https://docs.tuckn.net/WshProcess",
