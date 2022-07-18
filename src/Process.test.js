@@ -106,20 +106,20 @@ describe('Process', function () {
     var iRetVal;
 
     args = ['//nologo', __filename, '-t', testName, TEST_EXIT_MODE0];
-    iRetVal = os.runSync(CSCRIPT, args, { winStyle: 'hidden' });
+    iRetVal = os.shRunSync(CSCRIPT, args, { winStyle: 'hidden' });
     expect(iRetVal).toBe(0);
 
     args = ['//nologo', __filename, '-t', testName, TEST_EXIT_MODE1];
-    iRetVal = os.runSync(CSCRIPT, args, { winStyle: 'hidden' });
+    iRetVal = os.shRunSync(CSCRIPT, args, { winStyle: 'hidden' });
     expect(iRetVal).toBe(1);
 
     args = ['//nologo', __filename, '-t', testName, TEST_EXIT_MODE];
-    iRetVal = os.runSync(CSCRIPT, args, { winStyle: 'hidden' });
+    iRetVal = os.shRunSync(CSCRIPT, args, { winStyle: 'hidden' });
     expect(iRetVal).toBe(0);
   });
 
   test('kill', function () {
-    var oExec = os.exec(os.exefiles.wscript, ['//nologo', mockWsfGUI]);
+    var oExec = os.shExec(os.exefiles.wscript, ['//nologo', mockWsfGUI]);
     var mockPID = oExec.ProcessID;
 
     expect(isPureNumber(mockPID)).toBe(true); // Random
@@ -237,7 +237,7 @@ describe('Process', function () {
 
     var args = ['//nologo', __filename, '-t', testName, TEST_ADMIN_MODE, copiedPath, symlinkPath];
 
-    os.runSync(CSCRIPT, args);
+    os.shRunSync(CSCRIPT, args);
 
     // Wait for the symlink created
     var created = false;

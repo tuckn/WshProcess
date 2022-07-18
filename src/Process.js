@@ -414,7 +414,7 @@ if (!process) {
     var FN = 'process.wait';
     if (!isPureNumber(waitSec)) throwErrNonNum(FN, waitSec);
 
-    var retVal = os.runSync(TIMEOUT, ['/T', parseInt(waitSec, 10)], options);
+    var retVal = os.shRunSync(TIMEOUT, ['/T', parseInt(waitSec, 10)], options);
 
     var isDryRun = obtain(options, 'isDryRun', false);
     if (isDryRun) return 'dry-run [' + FN + ']: ' + retVal;
