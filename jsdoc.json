@@ -37,9 +37,9 @@
     "openGraph": {
       "title": "WshProcess",
       "type": "website",
-      "image": "https://docs.tuckn.net/WshProcess/img/openGraph-image.png",
+      "image": "https://tuckn.net/docs/WshProcess/img/openGraph-image.png",
       "site_name": "@tuckn/WshProcess",
-      "url": "https://docs.tuckn.net/WshProcess"
+      "url": "https://tuckn.net/docs/WshProcess/"
     },
     "meta": {
       "title": "WshProcess",

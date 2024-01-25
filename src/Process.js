@@ -129,7 +129,7 @@ if (!process) {
 
   // process.env {{{
   /**
-   * Returns an object containing the user environment. Similar to {@link https://nodejs.org/api/process.html#process_process_env|Node.js process.env}. Alias of {@link https://docs.tuckn.net/WshOS/Wsh.OS.html#.envVars|Wsh.OS.envVars}.
+   * Returns an object containing the user environment. Similar to {@link https://nodejs.org/api/process.html#process_process_env|Node.js process.env}. Alias of {@link https://tuckn.net/docs/WshOS/Wsh.OS.html#.envVars|Wsh.OS.envVars}.
    *
    * @example
    * console.dir(process.env);
@@ -256,7 +256,7 @@ if (!process) {
 
   // process.kill {{{
   /**
-   * Sends the signal to the process identified by the PID or the process name. Alias of {@link https://docs.tuckn.net/WshOS/Wsh.OS.html#.terminateProcesses|Wsh.OS.terminateProcesses}. Similar to {@link https://nodejs.org/api/process.html#process_process_kill_pid_signal|Node.js process.kill()}.
+   * Sends the signal to the process identified by the PID or the process name. Alias of {@link https://tuckn.net/docs/WshOS/Wsh.OS.html#.terminateProcesses|Wsh.OS.terminateProcesses}. Similar to {@link https://nodejs.org/api/process.html#process_process_kill_pid_signal|Node.js process.kill()}.
    *
    * @example
    * process.kill('chrome.exe');
@@ -406,7 +406,7 @@ if (!process) {
    * @memberof process
    * @param {number} waitSec - The waiting sec.
    * @param {object} [options] - Optional Parameters.
-   * @param {(number|string)} [options.winStyle=activeDef] - See {@link https://docs.tuckn.net/WshUtil/Wsh.Constants.windowStyles.html|Wsh.Constants.windowStyles}.
+   * @param {(number|string)} [options.winStyle=activeDef] - See {@link https://tuckn.net/docs/WshUtil/Wsh.Constants.windowStyles.html|Wsh.Constants.windowStyles}.
    * @param {boolean} [options.isDryRun=false] - No execute, returns the string of command.
    * @returns {boolean|string} - If canceled the wait, returns false, else true. If isDryRun is true, returns the command log string. Not execute.
    */
@@ -424,7 +424,7 @@ if (!process) {
 
   // process.isAdmin {{{
   /**
-   * Checks if this process is running as Administrator authority. Alias of {@link https://docs.tuckn.net/WshOS/Wsh.OS.html#.isAdmin|Wsh.OS.isAdmin}.
+   * Checks if this process is running as Administrator authority. Alias of {@link https://tuckn.net/docs/WshOS/Wsh.OS.html#.isAdmin|Wsh.OS.isAdmin}.
    *
    * @example
    * process.isAdmin(); // false
